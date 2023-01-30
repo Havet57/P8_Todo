@@ -99,4 +99,12 @@ class TaskController extends AbstractController
 
         return $this->redirectToRoute('task_list');
     }
+
+    /**
+     * @Route("/showTaskFinish", name="show_task_finish")
+     */
+    public function showTaskFinish()
+    {
+        return $this->render('task/list.html.twig', ['tasks' => $this->em->getRepository(Task::class)->findBy(['isDone'=>true])]);
+    }
 }

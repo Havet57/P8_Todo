@@ -6,6 +6,9 @@
 parameters:
 
 services:
+    App\Controller\UserController:
+        arguments:
+            $passwordHasher: '@Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface'
     # default configuration for services in *this* file
     _defaults:
         autowire: true      # Automatically injects dependencies in your services.

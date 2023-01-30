@@ -22,15 +22,13 @@ class Task
     #[Assert\NotBlank(message:"Vous devez saisir un titre.")]
     private $title;
 
-    /**
-     * @ORM\Column(type="text")
-     * @Assert\NotBlank(message="Vous devez saisir du contenu.")
-     */
+
+    #[ORM\Column(type:"string")]
+    #[Assert\NotBlank(message:"Vous devez saisir du contenu")]
     private $content;
 
-    /**
-     * @ORM\Column(type="boolean")
-     */
+
+    #[ORM\Column(type:"boolean")]
     private $isDone;
 
     public function __construct()
