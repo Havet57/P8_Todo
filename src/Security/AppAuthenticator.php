@@ -47,8 +47,7 @@ class AppAuthenticator extends AbstractLoginFormAuthenticator
         }
 
        
-        new RedirectResponse($this->urlGenerator->generate('default/index.html.twig'));
-        throw new \Exception('TODO: provide a valid redirect inside '.__FILE__);
+        return new RedirectResponse($this->urlGenerator->generate('homepage'));
     }
 
     protected function getLoginUrl(Request $request): string
