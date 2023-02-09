@@ -32,6 +32,11 @@
 
                     <img src="{{ asset('img/Logo_OpenClassrooms.png') }}" alt="OpenClassrooms" />
                 </div>
+                {% if app.user %}
+                <div class="navbar-right">
+                    <a href="{{ path('app_logout') }}" class="btn btn-primary">Se déconnecter</a>
+                </div>
+                {% endif %}
             </div>
         </nav>
 

@@ -5,13 +5,17 @@ namespace App\Controller;
 use App\Entity\User;
 use App\Form\UserType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
+use Symfony\Component\Form\FormError;
 
-
+/**
+ * @IsGranted("ROLE_ADMIN")
+ */
 class UserController extends AbstractController
 {
 
@@ -42,16 +46,25 @@ class UserController extends AbstractController
 
         $form->handleRequest($request);
 
-        if ($form->isValid()) {
-            $password = $this->passwordHasher->hashPassword($user, $user->getPlainPassword());
-            $user->setPassword($password);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $password = $form->get('password')->getData();
+            dump($password);
 
-            $this->em->persist($user);
-            $this->em->flush();
+            if (!empty($password)) {
+                $hashedPassword = $this->passwordHasher->hashPassword($user, $password);
+                $user->setPassword($hashedPassword);
 
-            $this->addFlash('success', "L'utilisateur a bien été ajouté.");
+                $this->em->persist($user);
+                $this->em->flush();
+    
+                $this->addFlash('success', "L'utilisateur a bien été ajouté.");
+    
+                return $this->redirectToRoute('user_list');
+            } else {
+               $form->addError(new FormError("Le mot de pass est vide"));
+            }
 
-            return $this->redirectToRoute('user_list');
+           
         }
 
         return $this->render('user/create.html.twig', ['form' => $form->createView()]);
@@ -61,22 +74,27 @@ class UserController extends AbstractController
      * @Route("/users/{id}/edit", name="user_edit")
      */
     public function editAction(User $user, Request $request)
-    {
-        $form = $this->createForm(UserType::class, $user);
+{
+    $form = $this->createForm(UserType::class, $user);
+    $form->handleRequest($request);
 
-        $form->handleRequest($request);
+    if ($form->isSubmitted() && $form->isValid()) {
+        $password = $form->get('plainPassword')->getData();
 
-        if ($form->isValid()) {
-            $password = $this->passwordHasher->hashPassword($user, $user->getPlainPassword());
-            $user->setPassword($password);
-
-            $this->em->flush();
-
-            $this->addFlash('success', "L'utilisateur a bien été modifié");
-
-            return $this->redirectToRoute('user_list');
+        if (!empty($password)) {
+            $hashedPassword = $this->passwordHasher->hashPassword($user, $password);
+            $user->setPassword($hashedPassword);
+        } else {
+            $user->setPassword($user->getPassword());
         }
 
-        return $this->render('user/edit.html.twig', ['form' => $form->createView(), 'user' => $user]);
+        $this->em->flush();
+
+        $this->addFlash('success', "L'utilisateur a bien été modifié");
+
+        return $this->redirectToRoute('user_list');
     }
+
+    return $this->render('user/edit.html.twig', ['form' => $form->createView(), 'user' => $user]);
+}
 }

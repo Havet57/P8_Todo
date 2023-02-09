@@ -7,7 +7,10 @@
     <div class="row">
         {% if tasks|length >0 %}
         <a href="{{ path('task_create') }}" class="btn btn-info pull-right">Créer une tâche</a>
-        {% for task in tasks %}
+        {% if is_granted('ROLE_ADMIN') %}
+                <a href="{{ path('user_list') }}" class="btn btn-info pull-right">Gérer les utilisateurs</a>
+        {% endif %}
+        {% for task in tasks %} 
         <div class="col-sm-4 col-lg-4 col-md-4">
             <div class="thumbnail">
                 <div class="caption">
