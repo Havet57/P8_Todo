@@ -27,6 +27,17 @@
         <include>
             <directory suffix=".php">src</directory>
         </include>
+        <exclude>
+            <directory suffix=".php">src/Repository</directory>
+            <directory suffix=".php">src/Form</directory>
+            <directory suffix=".php">src/Security</directory>
+            <file>src/Controller/RegistrationController.php</file>
+            <file>src/Controller/ResetPasswordController.php</file>
+            <file>src/Controller/SecurityController.php</file>
+            <file>src/Controller/ResetPasswordRequest.php</file>
+            <file>src/Entity/ResetPasswordRequest.php</file>      
+        </exclude>
+
     </coverage>
 
     <listeners>

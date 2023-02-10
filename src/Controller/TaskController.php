@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\User;
 use App\Entity\Task;
 use App\Form\TaskType;
 use App\Repository\TaskRepository;
@@ -12,6 +13,7 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\ExpressionLanguage\Expression;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
+use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 
 
 /**
@@ -27,12 +29,34 @@ class TaskController extends AbstractController
         $this->em = $em;
     }
 
+    private function getTasksForUser(User $user, bool $isAdmin)
+{
+    $allTasks = $this->em->getRepository(Task::class)->findAll();
+
+    if (!$isAdmin) {
+        $allTasks = array_filter($allTasks, function ($task) use ($user) {
+            return $task->getUser() == $user;
+        });
+    }
+
+    return $allTasks;
+}
+
     /**
      * @Route("/tasks", name="task_list")
      */
     public function listAction()
     {
-        return $this->render('task/list.html.twig', ['tasks' => $this->em->getRepository(Task::class)->findAll()]);
+        $user = $this->getUser();
+        $isAdmin = $this->isGranted('ROLE_ADMIN');
+        $tasks = $this->getTasksForUser($user, $isAdmin);
+    
+        // Filtrer les tâches terminées (is_done = 1)
+        $tasks = array_filter($tasks, function ($task) {
+            return !$task->isDone();
+        });
+    
+        return $this->render('task/list.html.twig', ['tasks' => $tasks]);
     }
 
     /**
@@ -102,6 +126,13 @@ class TaskController extends AbstractController
      */
     public function deleteTaskAction(Task $task)
     {
+        $user = $this->getUser();
+        $isAdmin = $this->isGranted('ROLE_ADMIN');
+    
+        if ($task->getUser() !== $user && !$isAdmin) {
+            throw new AccessDeniedException();
+        }
+
         $this->em->remove($task);
         $this->em->flush();
 
