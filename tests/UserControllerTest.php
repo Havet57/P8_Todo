@@ -5,7 +5,7 @@ namespace App\Tests;
 use App\Repository\UserRepository;
 use Doctrine\Inflector\Rules\Pattern;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
-
+use Symfony\Component\PasswordHasher\PasswordHasherInterface;
 
 class UserControllerTest extends WebTestCase
 {
@@ -67,7 +67,7 @@ class UserControllerTest extends WebTestCase
         $this->assertResponseIsSuccessful();
     }
 
-        /**
+    /**
      * @dataProvider adminUrl
      */
     public function testAdmin($url): void
@@ -90,7 +90,7 @@ class UserControllerTest extends WebTestCase
         $this->assertResponseIsSuccessful();
     }
 
-        /**
+    /**
      * test path /create with notlog
      *
      * @return void
@@ -124,7 +124,6 @@ class UserControllerTest extends WebTestCase
     {
         $client = static::createClient();
         $container = static::getContainer();
-        $passwordHasher = $container->get(PasswordHasher::class);
 
         // Récupération d'un utilisateur existant
         $userRepository = $container->get(UserRepository::class);
@@ -149,8 +148,41 @@ class UserControllerTest extends WebTestCase
         $user = $userRepository->findOneByEmail('toto@hotmail.com');
         $this->assertEquals('new_username', $user->getUsername());
         $this->assertEquals('new_email@example.com', $user->getEmail());
-        $this->assertTrue($passwordHasher->checkPassword($user, 'password'));
+        $this->assertEquals('password', $user->getPassword());
     }
+
+    
+    /**
+ * Test the path /users/{id}/delete
+ *
+ * @return void
+ */
+public function testDeleteAction(): void
+{
+    $client = static::createClient();
+    $container = static::getContainer();
+
+    // Login as a user with enough privileges
+    $userRepository = $container->get(UserRepository::class);
+    $testUser = $userRepository->findOneByEmail('lili@hotmail.com');
+
+    $client->loginUser($testUser);
+
+    // Find the user to delete
+    $userToDelete = $userRepository->findOneByUsername('test');
+
+    // Send a DELETE request to the delete action
+    $client->request('DELETE', '/users/' . $userToDelete->getId() . '/delete');
+
+    // Assert that the response is a redirect to the user list page
+    $client->followRedirect();
+    $this->assertTrue($client->getResponse()->isRedirect('/users'));
+
+    // Assert that the user has been deleted from the database
+    $deletedUser = $userRepository->findOneByUsername('test');
+    $this->assertNull($deletedUser);
+}
+
 
 
 }

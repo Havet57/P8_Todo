@@ -13,6 +13,7 @@ use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Component\Form\FormError;
 
+
 /**
  * @IsGranted("ROLE_ADMIN")
  */
@@ -96,5 +97,18 @@ class UserController extends AbstractController
     }
 
     return $this->render('user/edit.html.twig', ['form' => $form->createView(), 'user' => $user]);
+}
+
+/**
+*@Route("/users/{id}/delete", name="user_delete")
+*/
+public function deleteAction(User $user)
+{
+$this->em->remove($user);
+$this->em->flush();
+
+$this->addFlash('success', "L'utilisateur a bien été supprimé.");
+
+return $this->redirectToRoute('user_list');
 }
 }
