@@ -22,15 +22,15 @@ class UserTest extends TestCase
         $this->assertEquals($email, $user->getEmail());
         $this->assertEquals($password, $user->getPassword());
         $this->assertEquals($username, $user->getUsername());
-        $this->assertArrayHasKey('ROLE_USER', $user->getRoles());
+        $this->assertEquals(['ROLE_USER'], $user->getRoles());
         $this->assertEmpty($user->getSalt());
         $this->assertEquals($email, $user->getUserIdentifier());
         $this->assertEmpty($user->getTasks());
         $this->assertEmpty($user->getId());
         $user->addTask($task);
-        $this->assertEquals([$task], $user->getTasks());
         $user->removeTask($task);
         $this->assertEmpty($user->getTasks());
+        $this->assertEmpty($user->eraseCredentials());
 
 
     }

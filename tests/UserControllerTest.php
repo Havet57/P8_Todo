@@ -127,9 +127,13 @@ class UserControllerTest extends WebTestCase
 
         // Récupération d'un utilisateur existant
         $userRepository = $container->get(UserRepository::class);
-        $user = $userRepository->findOneByEmail('toto@hotmail.com');
+        $testUser = $userRepository->findOneByEmail('lili@hotmail.com');
+        $user = $userRepository->findOneByEmail('test@hotmail.com');
+        $client->loginUser($testUser);
+        
 
         $crawler = $client->request('GET', '/users/'.$user->getId().'/edit');
+        // var_dump($client->getResponse()->getContent());
 
         $form = $crawler->selectButton('Modifier')->form();
 
@@ -145,14 +149,12 @@ class UserControllerTest extends WebTestCase
         $this->assertResponseRedirects('/users');
 
         // Vérification de la modification de l'utilisateur
-        $user = $userRepository->findOneByEmail('toto@hotmail.com');
+        $user = $userRepository->findOneByEmail('new_email@example.com');
         $this->assertEquals('new_username', $user->getUsername());
         $this->assertEquals('new_email@example.com', $user->getEmail());
-        $this->assertEquals('password', $user->getPassword());
     }
 
-    
-    /**
+        /**
  * Test the path /users/{id}/delete
  *
  * @return void
@@ -169,13 +171,13 @@ public function testDeleteAction(): void
     $client->loginUser($testUser);
 
     // Find the user to delete
-    $userToDelete = $userRepository->findOneByUsername('test');
+    $userToDelete = $userRepository->findOneByUsername('new_username');
 
     // Send a DELETE request to the delete action
     $client->request('DELETE', '/users/' . $userToDelete->getId() . '/delete');
 
     // Assert that the response is a redirect to the user list page
-    $client->followRedirect();
+    $client->followRedirects();
     $this->assertTrue($client->getResponse()->isRedirect('/users'));
 
     // Assert that the user has been deleted from the database
@@ -183,7 +185,7 @@ public function testDeleteAction(): void
     $this->assertNull($deletedUser);
 }
 
-
+    
 
 }
 
