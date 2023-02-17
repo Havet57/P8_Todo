@@ -4,6 +4,7 @@
 
 {% block body %}
 
+    <h2>Liste des tâches à faire :</h2>
     <div class="row">
         {% if tasks|length >0 %}
         <a href="{{ path('task_create') }}" class="btn btn-info pull-right">Créer une tâche</a>

@@ -3,7 +3,6 @@
 {% block body %}
 
     <div class="row">
-        {% form_theme UserType 'bootstrap_3_layout.html.twig' %}
         {{ form_start(form, {'action' : path('task_edit', { 'id' : task.id })}) }}
             {{ form_widget(form) }}
 

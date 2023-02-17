@@ -49,7 +49,6 @@ class UserController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $password = $form->get('password')->getData();
-            dump($password);
 
             if (!empty($password)) {
                 $hashedPassword = $this->passwordHasher->hashPassword($user, $password);

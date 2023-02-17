@@ -133,7 +133,7 @@ class UserControllerTest extends WebTestCase
         
 
         $crawler = $client->request('GET', '/users/'.$user->getId().'/edit');
-        // var_dump($client->getResponse()->getContent());
+
 
         $form = $crawler->selectButton('Modifier')->form();
 
