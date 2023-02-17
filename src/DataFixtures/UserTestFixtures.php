@@ -29,7 +29,8 @@ class UserTestFixtures extends Fixture implements FixtureGroupInterface
     {
         $usersData=[
             ['id'=>1, 'username'=>'toto', 'roles'=>['ROLE_USER'], 'email'=>'toto@hotmail.com', 'password'=>'toto12345'],
-            ['id'=>2, 'username'=>'lili', 'roles'=>['ROLE_ADMIN'], 'email'=>'lili@hotmail.com', 'password'=>'lili12345'],
+            ['id'=>2, 'username'=>'test', 'roles'=>['ROLE_USER'], 'email'=>'test@hotmail.com', 'password'=>'test12345'],
+            ['id'=>3, 'username'=>'lili', 'roles'=>['ROLE_ADMIN'], 'email'=>'lili@hotmail.com', 'password'=>'lili12345'],
             
         ];
 

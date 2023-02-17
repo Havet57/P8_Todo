@@ -149,10 +149,10 @@ class TaskControllerTest extends WebTestCase
         $this->assertEquals(302, $client->getResponse()->getStatusCode());
     
         // Vérifie que la tâche a bien été marquée comme terminée ou non terminée selon son état initial
-        $this->assertTrue($task->isDone());
+        $this->assertFalse($task->isDone());
         $client->request('GET', sprintf('/tasks/%d/toggle', $taskId));
         $task = $taskRepository->find($taskId);
-        $this->assertFalse($task->isDone());
+        $this->assertTrue($task->isDone());
     }
 
     public function testDeleteTaskAction()

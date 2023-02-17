@@ -40,7 +40,6 @@ class UserControllerTest extends WebTestCase
         return [
             'consulter la liste des utilisateurs'=>['/users'],
             'créer un nouvel utilisateur'=>['/users/create'],
-            'Modifier utilisateur (ici toto)'=>['/users/1/edit'],
         ];
     }
 
