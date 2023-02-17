@@ -180,7 +180,7 @@ public function testDeleteAction(): void
     $this->assertTrue($client->getResponse()->isRedirect('/users'));
 
     // Assert that the user has been deleted from the database
-    $deletedUser = $userRepository->findOneByUsername('test');
+    $deletedUser = $userRepository->findOneByUsername('new_username');
     $this->assertNull($deletedUser);
 }
 
