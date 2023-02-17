@@ -127,7 +127,7 @@ class UserControllerTest extends WebTestCase
         // Récupération d'un utilisateur existant
         $userRepository = $container->get(UserRepository::class);
         $testUser = $userRepository->findOneByEmail('lili@hotmail.com');
-        $user = $userRepository->findOneByEmail('test@hotmail.com');
+        $user = $userRepository->findOneByEmail('user@hotmail.com');
         $client->loginUser($testUser);
         
 
