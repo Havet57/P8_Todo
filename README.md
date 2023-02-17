@@ -8,7 +8,7 @@ Improvement of an existing project ToDo & Co.
     ```git clone https://github.com/Havet57/P8_Todo```
     
 2. And fine the directory :
-   ```cd.. P8_Todo```
+   ```cd P8_Todo```
     
 3. To configure your environment variables, including the database connection, create a local .env file at the root of the project by copying the .env file, and set the connection to the test database in the .env.test file.
 
