@@ -12,19 +12,19 @@ use Doctrine\Bundle\FixturesBundle\FixtureGroupInterface;
 
 
 
-class TaskFixtures extends Fixture implements DependentFixtureInterface, FixtureGroupInterface
+class TaskTestFixtures extends Fixture implements DependentFixtureInterface, FixtureGroupInterface
 
 {
 
     public static function getGroups(): array
     {
-        return ['dev'];
+        return ['test'];
     }
 
     public function getDependencies()
     {
         return [
-            UserFixtures::class,
+            UserTestFixtures::class,
         ];
     }
 

@@ -9,14 +9,14 @@ use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Doctrine\Bundle\FixturesBundle\FixtureGroupInterface;
 
 
-class UserFixtures extends Fixture implements FixtureGroupInterface
+class UserTestFixtures extends Fixture implements FixtureGroupInterface
 
 {
     private UserPasswordHasherInterface $hasher;
 
     public static function getGroups(): array
     {
-        return ['dev'];
+        return ['test'];
     }
 
 
@@ -28,8 +28,8 @@ class UserFixtures extends Fixture implements FixtureGroupInterface
     public function load(ObjectManager $manager): void
     {
         $usersData=[
-            ['id'=>1, 'username'=>'kevin', 'roles'=>['ROLE_USER'], 'email'=>'kevin@hotmail.com', 'password'=>'kevin12345'],
-            ['id'=>2, 'username'=>'julie', 'roles'=>['ROLE_ADMIN'], 'email'=>'julie@hotmail.com', 'password'=>'julie12345'],
+            ['id'=>1, 'username'=>'toto', 'roles'=>['ROLE_USER'], 'email'=>'toto@hotmail.com', 'password'=>'toto12345'],
+            ['id'=>2, 'username'=>'lili', 'roles'=>['ROLE_ADMIN'], 'email'=>'lili@hotmail.com', 'password'=>'lili12345'],
             
         ];
 
