@@ -15,8 +15,18 @@ Improvement of an existing project ToDo & Co.
 4. Create the database:
    ```php bin/console doctrine:database:create```
    
-5. Create the different tables in the database with a migration:
-```php bin/console doctrine:migrations:migrate```
+5. And the database test : 
+   ```php bin/console doctrine:database:create --env=test```
 
-6. Install the fixtures to have a minimal demo data in development:
-```php app/console doctrine:fixtures:load```
+   
+6. Create the different tables in the database :
+```php bin/console doctrine:schema:update --force ```
+
+7. And create the different tables in the database test :
+```php bin/console doctrine:schema:update --force --env=test ```
+
+8. Install the fixtures to have a minimal demo data in development:
+```php bin/console doctrine:fixtures:load --group=dev -n```
+
+9. Install the fixtures to have a minimal demo data in development:
+```php bin/console doctrine:fixtures:load --group=test --env=test -n```
