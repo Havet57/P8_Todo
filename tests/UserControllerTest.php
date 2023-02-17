@@ -109,10 +109,10 @@ class UserControllerTest extends WebTestCase
         $crawler = $client->request('GET', '/users/create');
 
         $form = $crawler->selectButton('Ajouter')->form();
-        $form['user[username]'] = 'test';
-        $form['user[password][first]'] = 'test12345';
-        $form['user[password][second]'] = 'test12345';
-        $form['user[email]'] = 'test@hotmail.com';
+        $form['user[username]'] = 'user';
+        $form['user[password][first]'] = 'user12345';
+        $form['user[password][second]'] = 'user12345';
+        $form['user[email]'] = 'user@hotmail.com';
         $client->submit($form);
         $client->followRedirects();
         $this->assertTrue($client->getResponse()->isRedirect('/users'));
