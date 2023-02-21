@@ -25,7 +25,7 @@ C'est maintenant l'heure de coder ! N'oubliez pas de suivre les conventions de c
 
 5. Pousser les modifications
 
-Une fois que vous avez terminé de coder, vous devez pousser vos modifications sur votre fork :
+Une fois que vous avez terminé de coder, vous devez pousser vos modifications sur votre branche :
 ``` 
 git add .
 git commit -m "Ma nouvelle fonctionnalité"
@@ -36,9 +36,10 @@ git push origin ma-nouvelle-fonctionnalite
 
 Vous pouvez maintenant créer une pull request pour que nous examinions vos modifications et les fusionnions avec la branche principale :
 
--Allez sur votre fork sur GitHub
+-Allez sur votre branche sur GitHub
 -Cliquez sur le bouton "New pull request"
 -Sélectionnez la branche que vous venez de pousser
+-Nous rajouter en assigné afin que je puisse procéder à la revue de code
 -Cliquez sur le bouton "Create pull request"
 -Décrivez les modifications que vous avez apportées et n'oubliez pas de référencer les issues correspondantes si nécessaire
 
