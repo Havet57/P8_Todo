@@ -82,7 +82,7 @@ class TaskControllerTest extends WebTestCase
         $this->assertEquals(200, $client->getResponse()->getStatusCode());
 
         // Vérifie que la réponse contient le texte "Liste des tâches"
-        $this->assertStringContainsString('Liste des tâches à faire', $client->getResponse()->getContent());
+        $this->assertStringContainsString('Liste des tâches :', $client->getResponse()->getContent());
     }
 
     public function testEditAction()

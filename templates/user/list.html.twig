@@ -2,7 +2,12 @@
 
 {% block header_img %}{% endblock %}
 
-{% block header_title %}<h1>Liste des utilisateurs</h1>{% endblock %}
+{% block header_title %}
+<h1>Liste des utilisateurs</h1>
+<a href="{{ path('user_create') }}" class="btn btn-primary">Créer un nouvel utilisateur</a>
+{% endblock %}
+
+
 
 {% block body %}
     {% if users|length == 0 %}
